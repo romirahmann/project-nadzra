@@ -83,12 +83,12 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ claim.nominal | currency : "RP " : true : "1.0-2" }}
+            {{ claim.nominal | currency : "RP " : "symbol" : "1.0-2" }}
           </td>
           <td
             class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <a href="">Bukti</a>
+            <a href="{{ fileUrl }}/file/{{ claim.filename }}">Bukti</a>
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -130,7 +130,10 @@
               </button>
             </span>
             <span *ngIf="claim.status_code === 'D'">
-              <button class="p-4 bg-blue-700 ms-2 rounded-xl text-white">
+              <button
+                (click)="submit(claim.claim_id)"
+                class="p-4 bg-blue-700 ms-2 rounded-xl text-white"
+              >
                 Submit
               </button>
               <button class="p-4 bg-green-700 ms-2 rounded-xl text-white">

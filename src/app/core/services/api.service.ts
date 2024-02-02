@@ -12,13 +12,22 @@ export class ApiService {
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  getAllClaimByUserID(userID: number) {
-    return this.http.get<any>(
-      `${this.apiUrl}/master/reimbursement-user/${userID}`
+  getAllClaimByUserID(userID: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/master/reimbursement-user/${userID}`);
+  }
+  addClaim(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/master/reimbursement`, data);
+  }
+  updateClaim(claimID: number, data: any): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/master/reimbursement/${claimID}`,
+      data
     );
   }
-  addClaim(data: any) {
-    return this.http.post<any>(`${this.apiUrl}/master/reimbursement`, data);
+
+  // Approval Admin
+  submitApproval(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/master/approval-admin`, data);
   }
 
   // FILE
