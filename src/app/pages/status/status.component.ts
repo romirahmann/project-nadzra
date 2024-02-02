@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 export class StatusComponent {
   userLogin!: any;
   dataClaim!: any;
+
   constructor(
     private authService: AuthService,
     private apiService: ApiService
@@ -23,7 +24,13 @@ export class StatusComponent {
   getAllClaimByUserId(userId: number) {
     this.apiService.getAllClaimByUserID(userId).subscribe((res: any) => {
       this.dataClaim = res.data;
-      // console.log(this.dataClaim);
+      console.log(this.dataClaim);
+    });
+  }
+
+  getFile(filename: any) {
+    this.apiService.getFile(filename).subscribe((res: any) => {
+      console.log();
     });
   }
 }

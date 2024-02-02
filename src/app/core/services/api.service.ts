@@ -17,4 +17,15 @@ export class ApiService {
       `${this.apiUrl}/master/reimbursement-user/${userID}`
     );
   }
+  addClaim(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/master/reimbursement`, data);
+  }
+
+  // FILE
+  uploadFile(formData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/upload`, formData);
+  }
+  getFile(filename: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/file/${filename}`);
+  }
 }
