@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -8,9 +8,13 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./profil.component.scss'],
 })
 export class ProfilComponent {
+  userLogin!: any;
   constructor(private authService: AuthService, private route: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userLogin = this.authService.getUserLogin();
+    console.log(this.userLogin);
+  }
 
   logout() {
     this.authService.logout();

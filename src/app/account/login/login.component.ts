@@ -54,7 +54,17 @@ export class LoginComponent {
     this.api.login(this.formLogin.value).subscribe((res: any) => {
       console.log(res);
       this.api.savetoken(res.token, res.userData[0]);
-      this.route.navigate(['']);
+      // this.route.navigate(['']);
+      this.showModal();
     });
+  }
+
+  showModal() {
+    const modalSuccess = document.querySelector('#modalSuccess');
+    modalSuccess?.classList.remove('hidden');
+    setTimeout(() => {
+      modalSuccess?.classList.add('hidden');
+      this.route.navigate(['']);
+    }, 2000);
   }
 }

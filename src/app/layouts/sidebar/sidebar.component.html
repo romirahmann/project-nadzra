@@ -30,16 +30,13 @@
   class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0"
   aria-label="Sidebar"
 >
-  <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+  <div
+    class="h-full px-3 py-4 overflow-y-auto bg-primary text-white dark:bg-gray-800"
+  >
     <a href="https://flowbite.com/" class="flex items-center ps-2.5 mb-5">
-      <img
-        src="https://flowbite.com/docs/images/logo.svg"
-        class="h-6 me-3 sm:h-7"
-        alt="Flowbite Logo"
-      />
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-        >Flowbite</span
+        class="self-center text-xl font-bold whitespace-nowrap dark:text-white"
+        >Reimbursement THM</span
       >
     </a>
     <div class="menu">
@@ -47,7 +44,7 @@
         <li>
           <a
             routerLink=""
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-100 hover:text-black"
           >
             <i class="fa-solid fa-rectangle-list"></i>
             <span class="ms-3">Dashboard</span>
@@ -56,7 +53,7 @@
         <li>
           <a
             routerLink="profil"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-100 hover:text-black group"
           >
             <i class="fa-solid fa-user"></i>
             <span class="ms-3">Profil</span>
@@ -65,7 +62,7 @@
         <li>
           <div class="group">
             <button
-              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              class="flex items-center p-2 rounded-lg text-white hover:bg-gray-100 hover:text-black group"
               (click)="toggleSubMenu()"
             >
               <i class="fa-solid fa-pen-to-square"></i>
@@ -77,7 +74,7 @@
               <li>
                 <a
                   routerLink=""
-                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  class="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 hover:text-black group"
                 >
                   <span class="ms-3">Operasional Kantor</span>
                 </a>
@@ -85,7 +82,7 @@
               <li>
                 <a
                   routerLink=""
-                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  class="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 hover:text-black group"
                 >
                   <span class="ms-3">Klien</span>
                 </a>
@@ -99,6 +96,6 @@
   </div>
 </aside>
 
-<div class="p-4 sm:ml-64">
+<div class="md:p-20 p-5 sm:ml-64">
   <router-outlet></router-outlet>
 </div>

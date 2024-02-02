@@ -1,1 +1,83 @@
-<p>status works!</p>
+<div class="block w-full overflow-x-auto">
+  <table class="items-center bg-transparent w-full border-collapse">
+    <thead class="bg-primary">
+      <tr class="text-center text-white text-2xl font-bold">
+        <td colspan="7">Reimburse Biaya Kantor</td>
+      </tr>
+      <tr>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          NO
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Nama
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Tanggal
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Deskripsi
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Nominal
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Attachment Bukti
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Approval
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let claim of dataClaim">
+        <tr>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700"
+          >
+            1
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ claim.username }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ claim.payment_date }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ claim.description }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ claim.nominal }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          ></td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          ></td></tr
+      ></ng-container>
+    </tbody>
+  </table>
+</div>

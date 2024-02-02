@@ -4,9 +4,11 @@ import { RouterModule } from '@angular/router';
 
 import { LayoutsComponent } from './layouts.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
-  declarations: [LayoutsComponent, SidebarComponent],
+  declarations: [LayoutsComponent, SidebarComponent, ModalComponent],
   imports: [CommonModule, RouterModule],
+  exports: [ModalComponent],
 })
 export class LayoutsModule {}
