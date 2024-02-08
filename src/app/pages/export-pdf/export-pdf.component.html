@@ -1,0 +1,53 @@
+<button
+  (click)="generatePDF()"
+  class="text-white bg-primary mb-5 hover:bg-blue-700 px-16 py-3 rounded-xl"
+>
+  Export
+</button>
+<div id="template-pdf" class="box-template shadow-md p-5" #templatePDF>
+  <div class="conten-pdf">
+    <h1 class="text-2xl font-extrabold">
+      Total Reimbursement Biaya Operasional Kantor
+    </h1>
+    <p class="text-xl font-bold">Desember 2023</p>
+
+    <div class="relative overflow-x-auto mt-10">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Employee</th>
+            <th scope="col" class="px-6 py-3">Nominal</th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let item of dataItems">
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ item.description }}
+            </th>
+            <td class="px-6 py-4">
+              {{ item.nominal | currency : "RP " : "symbol" : "1.0-2" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="total mt-10 flex justify-end">
+      <p class="text-xl font-bold">
+        TOTAL : {{ totalNominal | currency : "RP " : "symbol" : "1.0-2" }}
+      </p>
+    </div>
+    <div class="box-ttd mt-10 grid justify-items-end">
+      <img src="{{ apiUrl }}/file/{{ filename }}" alt="" class="w-48" />
+      <p class="italic me-10">Romi Rahman</p>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -14,6 +14,9 @@ export class LoginComponent {
   // Validation
   wrongKaryawanID = false;
   wrongPassword = false;
+
+  // EMITTER TO MODAL
+  @Output() textForModal: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
@@ -52,9 +55,11 @@ export class LoginComponent {
 
   login() {
     this.api.login(this.formLogin.value).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.api.savetoken(res.token, res.userData[0]);
       // this.route.navigate(['']);
+      const textLogin = 'Login';
+      this.textForModal.emit(textLogin);
       this.showModal();
     });
   }

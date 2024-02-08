@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -18,7 +19,8 @@ export class AddClaimComponent {
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private routes: Router
   ) {}
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class AddClaimComponent {
   submitData(data: any) {
     this.apiService.addClaim(data).subscribe((res: any) => {
       console.log('Data Berhasil Di Upload!', res);
+      this.routes.navigate(['']);
     });
   }
 
@@ -66,6 +69,7 @@ export class AddClaimComponent {
           user_id: this.dataUserLogin.user_id,
         });
         this.submitData(this.formClaim.value);
+
         // console.log('Data Reimbursement: ', this.formClaim.value);
       },
       (error) => {

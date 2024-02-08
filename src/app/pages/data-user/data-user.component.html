@@ -1,0 +1,194 @@
+<div class="btn-group">
+  <button
+    type="button"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+  >
+    Add User
+  </button>
+</div>
+<div class="table-user">
+  <table class="items-center bg-transparent w-full border-collapse">
+    <thead class="bg-primary">
+      <tr class="text-center text-white text-2xl font-bold">
+        <td colspan="8">Data Users</td>
+      </tr>
+      <tr>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          NO
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Username
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Karyawan ID
+        </th>
+        <th
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+        >
+          Role
+        </th>
+        <th
+          *ngIf="dataUserLogin.role_id !== 3"
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle text-center border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold"
+        >
+          Action
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="border-2">
+      <ng-container *ngFor="let user of dataUsers; let i = index">
+        <tr>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700"
+          >
+            {{ i + 1 }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ user.username }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ user.karyawan_id }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ user.role_name }}
+          </td>
+          <td
+            *ngIf="dataUserLogin.role_id !== 3"
+            class="border-t-0 px-6 align-middle text-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            <button
+              (click)="toogleModalEdit(user.user_id)"
+              type="button"
+              class="text-white bg-green-700 hover:bg-primary focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Delete
+            </button>
+          </td>
+        </tr></ng-container
+      >
+    </tbody>
+  </table>
+</div>
+
+<!-- MODAL -->
+<!-- Main modal -->
+<div
+  id="edit-modal"
+  tabindex="-1"
+  aria-hidden="true"
+  class="hidden absolute overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+>
+  <div class="relative p-1 w-full max-w-md max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Modal header -->
+      <div
+        class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+      >
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+          Edit User
+        </h3>
+        <button
+          (click)="toogleModalEdit(null)"
+          type="button"
+          class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="authentication-modal"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="p-4 md:p-5">
+        <form [formGroup]="formEdit" class="space-y-4" (ngSubmit)="onSubmit()">
+          <div class="mb-2">
+            <label for="username" class="block text-gray-600">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              autocomplete="off"
+              formControlName="username"
+            />
+          </div>
+          <div class="mb-2">
+            <label for="karyawan_id" class="block text-gray-600"
+              >Karyawan ID</label
+            >
+            <input
+              type="number"
+              id="karyawan_id"
+              name="karyawan_id"
+              class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              autocomplete="off"
+              formControlName="karyawan_id"
+            />
+          </div>
+          <div class="mb-2">
+            <label for="role" class="block text-gray-600">Role</label>
+            <select
+              name="role"
+              id="role"
+              class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              formControlName="role_id"
+            >
+              <option value="1">Partner</option>
+              <option value="2">Admin</option>
+              <option value="3">Karyawan</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <button
+              type="submit"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
+            >
+              Registrasi
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal
+  id="modalSuccess"
+  tabindex="-1"
+  class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-auto max-w-md rounded-lg p-4"
+  [receivedText]="textForModal | async"
+>
+</app-modal>

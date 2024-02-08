@@ -6,6 +6,9 @@ module.exports = {
     colors: {
       primary: "#004830",
     },
+    fontFamily: {
+      primary: "Poppins",
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

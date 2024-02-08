@@ -22,6 +22,10 @@ export class SidebarComponent {
     const subMenu = document.querySelector('#submenu');
     subMenu?.classList.toggle('hidden');
   }
+  toogleSubMenuDataMaster() {
+    const subMenu = document.querySelector('#submenuDataMaster');
+    subMenu?.classList.toggle('hidden');
+  }
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;

@@ -1,20 +1,21 @@
 <!-- component -->
 <div class="bg-gray-100 flex justify-center items-center h-screen">
   <!-- Left: Image -->
-  <div class="w-1/2 h-screen bg-primary hidden lg:block">
-    <div class="img flex justify-center h-full p-40">
-      <img
-        src="./../../../assets/img/login.png"
-        alt="Placeholder Image"
-        class="object-cover w-50"
-      />
-    </div>
-  </div>
-  <!-- Right: Login Form -->
   <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-    <h1 class="text-2xl font-semibold mb-4">Login</h1>
-    <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+    <h1 class="text-4xl font-semibold mb-10">Registrasi</h1>
+    <form [formGroup]="formRegist" (ngSubmit)="onSubmit()">
       <!-- Username Input -->
+      <div class="mb-4">
+        <label for="username" class="block text-gray-600">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          autocomplete="off"
+          formControlName="username"
+        />
+      </div>
       <div class="mb-4">
         <label for="karyawan_id" class="block text-gray-600">ID Karyawan</label>
         <input
@@ -25,14 +26,6 @@
           autocomplete="off"
           formControlName="karyawan_id"
         />
-        <div class="mt-2">
-          <div [hidden]="!wrongKaryawanID">
-            <span
-              class="p-2 mt-2 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-              >ID is required</span
-            >
-          </div>
-        </div>
       </div>
 
       <!-- Password Input -->
@@ -44,7 +37,6 @@
           id="password"
           name="password"
           class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-          autocomplete="off"
           formControlName="password"
         />
         <div
@@ -57,33 +49,50 @@
           ></i>
         </div>
       </div>
-      <div class="mb-1">
-        <div [hidden]="!wrongPassword">
-          <span
-            class="p-2 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            >Password is required</span
-          >
-        </div>
+
+      <!-- Role -->
+      <div class="mb-10">
+        <label for="role" class="block text-gray-600">Role</label>
+        <select
+          name="role"
+          id="role"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          formControlName="role_id"
+        >
+          <option value="1">Partner</option>
+          <option value="2">Admin</option>
+          <option value="3">Karyawan</option>
+        </select>
       </div>
 
       <button
         type="submit"
         class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
       >
-        Login
+        Registrasi
       </button>
     </form>
     <!-- Sign up  Link -->
     <div class="mt-6 text-blue-500 text-center">
-      <a routerLink="/auth/register" class="hover:underline">Sign up Here</a>
+      <a routerLink="/auth/login" class="hover:underline">Login In Here</a>
+    </div>
+  </div>
+  <!-- Right: Login Form -->
+  <div class="w-1/2 h-screen rounded-s-[15rem] bg-green-500 hidden lg:block">
+    <div class="img flex justify-center h-full p-40">
+      <img
+        src="./../../../assets/img/regist.png"
+        alt="Placeholder Image"
+        class="object-cover w-50"
+      />
     </div>
   </div>
 </div>
 
 <app-modal
-  [receivedText]="textForModal | async"
   id="modalSuccess"
   tabindex="-1"
   class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-auto max-w-md rounded-lg p-4"
+  [receivedText]="textForModal | async"
 >
 </app-modal>

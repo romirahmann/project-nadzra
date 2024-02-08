@@ -1,0 +1,176 @@
+<div
+  class="relative detail-template w-full justify-center p-16 rounded-2xl bg-gray-100"
+>
+  <p class="text-4xl font-bold text-center">DETAIL REIMBURSEMENT</p>
+  <hr class="border-b-2 border-b-primary mt-5" />
+  <!-- DATA REIMBURESMENT -->
+
+  <table class="mt-10">
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Username</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">{{ dataReimbursement?.username }}</td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Karyawan ID</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">{{ dataReimbursement?.karyawan_id }}</td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Role</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">{{ dataReimbursement?.role_name }}</td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Payment Date</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">
+        {{ dataReimbursement?.payment_date | date : "EEEE, dd-MMMM-yyyy" }}
+      </td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Description</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">{{ dataReimbursement?.description }}</td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Nominal</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">
+        {{ dataReimbursement?.nominal | currency : "RP " : "symbol" : "1.0-2" }}
+      </td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Status</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">{{ dataReimbursement?.status_desc }}</td>
+    </tr>
+    <tr>
+      <td class="px-6 py-3 font-bold text-3xl">Bukti</td>
+      <td class="px-6 py-3 font-bold text-3xl">:</td>
+      <td class="border-b-2 text-2xl">
+        <a
+          href="{{ fileUrl }}/file/{{ dataReimbursement?.filename }}"
+          class="underline hover:text-blue-600"
+          >Bukti</a
+        >
+      </td>
+    </tr>
+  </table>
+  <div class="flex justify-end mt-10">
+    <button
+      (click)="openModalApprove()"
+      *ngIf="isRespon"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Approve
+    </button>
+  </div>
+  <div *ngIf="!isStatusAP" class="flex justify-end mt-10">
+    <button
+      (click)="openModalApprove()"
+      *ngIf="userLogin.role_id === 1"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Approve
+    </button>
+  </div>
+
+  <!-- Main modal -->
+  <div
+    id="static-modal"
+    data-modal-backdrop="static"
+    tabindex="-1"
+    aria-hidden="true"
+    [class]=""
+    class="hidden overflow-y-auto overflow-x-hidden absolute flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm shadow-md"
+  >
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Approve Reimbursement?
+          </h3>
+          <button
+            (click)="closeModalApprove()"
+            type="button"
+            class="text-white bg-red-500 hover:bg-red-700 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5 space-y-4">
+          <p class="text-xl font-bold">Note:</p>
+
+          <form (ngSubmit)="onSubmit()">
+            <textarea
+              name="approval_admin_desc"
+              id="approval_admin_desc"
+              cols="30"
+              rows="2"
+              [(ngModel)]="description"
+            ></textarea>
+            <label
+              *ngIf="userLogin.role_id === 1"
+              for="file_input_ttd"
+              class=""
+            >
+              <p class="text-xl mt-10 mb-3 font-bold">Upload Tanda Tangan :</p>
+            </label>
+            <input
+              *ngIf="userLogin.role_id === 1"
+              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+              aria-describedby="file_input_ttd"
+              id="file_input_ttd"
+              type="file"
+              (change)="onFileSelected($event)"
+              required
+            />
+            <p *ngIf="isNull" class="text-lg text-red-700">
+              Upload Tanda Tangan !
+            </p>
+
+            <!-- Modal footer -->
+            <div
+              class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+            >
+              <button
+                type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Accept
+              </button>
+              <button
+                (click)="declineApproval()"
+                type="button"
+                class="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+              >
+                Decline
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
