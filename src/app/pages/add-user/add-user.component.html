@@ -1,9 +1,41 @@
-<!-- component -->
-<div class="bg-gray-100 flex justify-center items-center h-screen">
-  <!-- Left: Image -->
-  <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-    <h1 class="text-4xl font-semibold mb-10">Registrasi</h1>
-    <form [formGroup]="formRegist" (ngSubmit)="onSubmit()">
+<div class="isolate bg-white px-6 py-18 lg:px-8">
+  <div
+    class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+    aria-hidden="true"
+  >
+    <div
+      class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+      style="
+        clip-path: polygon(
+          74.1% 44.1%,
+          100% 61.6%,
+          97.5% 26.9%,
+          85.5% 0.1%,
+          80.7% 2%,
+          72.5% 32.5%,
+          60.2% 62.4%,
+          52.4% 68.1%,
+          47.5% 58.3%,
+          45.2% 34.5%,
+          27.5% 76.7%,
+          0.1% 64.9%,
+          17.9% 100%,
+          27.6% 76.8%,
+          76.1% 97.7%,
+          74.1% 44.1%
+        );
+      "
+    ></div>
+  </div>
+
+  <div class="form-add-user p-20">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Add User
+      </h2>
+      <hr />
+    </div>
+    <form [formGroup]="formAddUser" (ngSubmit)="onSubmit()">
       <!-- Username Input -->
       <div class="mb-4">
         <label for="username" class="block text-gray-600">Username</label>
@@ -15,6 +47,7 @@
           autocomplete="off"
           formControlName="username"
         />
+        <p *ngIf="!isValid" class="text-red-500 mt-1">Username Required</p>
       </div>
       <div class="mb-4">
         <label for="karyawan_id" class="block text-gray-600">ID Karyawan</label>
@@ -26,6 +59,7 @@
           autocomplete="off"
           formControlName="karyawan_id"
         />
+        <p *ngIf="!isValid" class="text-red-500 mt-1">ID Karyawan Required</p>
       </div>
 
       <!-- Password Input -->
@@ -39,6 +73,7 @@
           class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           formControlName="password"
         />
+        <p *ngIf="!isValid" class="text-red-500 mt-1">Password Required</p>
         <div
           class="toggle-password absolute inset-y bottom-3 right-0 flex items-center pr-5 pointer-events-auto cursor-pointer"
           (click)="togglePasswordVisibility()"
@@ -63,29 +98,16 @@
           <option value="2">Admin</option>
           <option value="3">Karyawan</option>
         </select>
+        <p *ngIf="!isValid" class="text-red-500 mt-1">Role Required</p>
       </div>
 
       <button
         type="submit"
         class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
       >
-        Registrasi
+        Add User
       </button>
     </form>
-    <!-- Login  Link -->
-    <div class="mt-6 text-blue-500 text-center">
-      <a routerLink="/auth/login" class="hover:underline">Login In Here</a>
-    </div>
-  </div>
-  <!-- Right: Login Form -->
-  <div class="w-1/2 h-screen rounded-s-[15rem] bg-green-500 hidden lg:block">
-    <div class="img flex justify-center h-full p-40">
-      <img
-        src="./../../../assets/img/regist.png"
-        alt="Placeholder Image"
-        class="object-cover w-50"
-      />
-    </div>
   </div>
 </div>
 

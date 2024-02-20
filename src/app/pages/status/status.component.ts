@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/api.service';
 import { environment } from 'src/environment/environment.prod';
@@ -21,6 +21,9 @@ export class StatusComponent {
   entires: any;
 
   filterDate!: any;
+  category_id!: any;
+
+  @Output() dataModalRemove: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private authService: AuthService,
@@ -29,7 +32,7 @@ export class StatusComponent {
   ) {}
   ngOnInit() {
     this.userLogin = this.authService.getUserLogin();
-    // console.log(this.userLogin);
+
     this.getDataByRole();
   }
 
@@ -49,6 +52,7 @@ export class StatusComponent {
   getAllApprovalAdmin() {
     this.apiService.getAllAprovalAdmin().subscribe((res: any) => {
       this.dataClaim = res.data;
+      console.log(this.dataClaim);
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -60,6 +64,7 @@ export class StatusComponent {
   getAllApprovalPartner() {
     this.apiService.getAllAprovalPartner().subscribe((res: any) => {
       this.dataClaim = res.data;
+      console.log(this.dataClaim);
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -67,9 +72,23 @@ export class StatusComponent {
     });
   }
 
+  getAllClaimByCategory(userId: number, category_id: number) {
+    this.apiService
+      .getAllClaimByCategory(userId, category_id)
+      .subscribe((res: any) => {
+        this.dataClaim = res.data;
+        this.fileUrl = environment.apiUrl;
+        this.entires = this.dataClaim.length;
+        this.updateDisplayClaim();
+        this.calculateTotalPages();
+        this.openFilter();
+      });
+  }
+
   getAllClaimByUserId(userId: number) {
     this.apiService.getAllClaimByUserID(userId).subscribe((res: any) => {
       this.dataClaim = res.data;
+      console.log(this.dataClaim);
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -115,6 +134,35 @@ export class StatusComponent {
     };
 
     this.route.navigate(['/export-pdf'], { queryParams: data });
+  }
+
+  openFilter() {
+    const modal = document.querySelector('#dropdownFilter');
+    modal?.classList.toggle('hidden');
+  }
+
+  toogleModalRemove(claim: any) {
+    if (claim !== null) {
+      const dataModalRemove = {
+        id: claim.claim_id,
+        name: claim.description,
+        category: 'claim',
+      };
+
+      this.dataModalRemove.emit(dataModalRemove);
+      const modal = document.querySelector('#modal-remove');
+      modal?.classList.toggle('hidden');
+      this.getAllClaimByUserId(this.userLogin.user_id);
+    } else {
+      const modal = document.querySelector('#modal-remove');
+      modal?.classList.toggle('hidden');
+      this.getAllClaimByUserId(this.userLogin.user_id);
+    }
+  }
+
+  toogleModalEdit() {
+    const modal = document.querySelector('#modal-edit');
+    modal?.classList.toggle('hidden');
   }
 
   // Pagination

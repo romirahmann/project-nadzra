@@ -31,10 +31,24 @@ export class ApiService {
   getAllClient(): Observable<any> {
     return this.http.get(`${this.apiUrl}/master/clients`);
   }
+  getClientById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/master/client/${id}`);
+  }
+  addClient(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/master/client`, data);
+  }
+  updateClient(clientID: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/master/client/${clientID}`, data);
+  }
 
   // REIMBURSEMENT
   getAllClaimByUserID(userID: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/master/reimbursement-user/${userID}`);
+  }
+  getAllClaimByCategory(userID: number, category_id: number): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/master/reimbursement-client/${userID}/${category_id}`
+    );
   }
   addClaim(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/master/reimbursement`, data);
@@ -47,6 +61,11 @@ export class ApiService {
   }
   exportFilter(month: any, year: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/master/filter-claim/${month}/${year}`);
+  }
+  totalClaims(userID: any, roleID: any): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/master/total-claim/${userID}/${roleID}`
+    );
   }
 
   // Approval Admin

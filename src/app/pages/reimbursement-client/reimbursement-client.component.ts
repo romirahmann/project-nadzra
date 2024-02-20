@@ -5,16 +5,17 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-add-claim',
-  templateUrl: './add-claim.component.html',
-  styleUrls: ['./add-claim.component.scss'],
+  selector: 'app-reimbursement-client',
+  templateUrl: './reimbursement-client.component.html',
+  styleUrls: ['./reimbursement-client.component.scss'],
 })
-export class AddClaimComponent {
+export class ReimbursementClientComponent {
   formClaim!: FormGroup;
   selectedFile!: File;
   filename!: string;
   isValid: boolean = true;
   dataUserLogin!: any;
+  clients!: any;
 
   constructor(
     private fb: FormBuilder,
@@ -25,15 +26,16 @@ export class AddClaimComponent {
 
   ngOnInit() {
     this.dataUserLogin = this.authService.getUserLogin();
-
     this.formClaim = this.fb.group({
-      user_id: [this.dataUserLogin.user_id],
+      user_id: [''],
       description: ['', [Validators.required]],
       payment_date: ['', [Validators.required]],
       nominal: ['', [Validators.required]],
-      category_id: [1, [Validators.required]],
+      client_id: ['', [Validators.required]],
+      category_id: [2, [Validators.required]],
       file_id: [''],
     });
+    this.getClients();
   }
 
   onSubmit() {
@@ -43,11 +45,16 @@ export class AddClaimComponent {
       this.uploadFile();
     }
   }
+  // Get Client
+  getClients() {
+    this.apiService.getAllClient().subscribe((res: any) => {
+      this.clients = res.data;
+    });
+  }
 
   // upload data reimburesment
   submitData(data: any) {
     this.apiService.addClaim(data).subscribe((res: any) => {
-      console.log('Data Berhasil Di Upload!', res);
       this.routes.navigate(['']);
     });
   }
@@ -55,6 +62,7 @@ export class AddClaimComponent {
   // File
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile);
   }
 
   uploadFile() {
@@ -66,6 +74,7 @@ export class AddClaimComponent {
         const file_id = res.file_id;
         this.formClaim.patchValue({
           file_id: file_id,
+          user_id: this.dataUserLogin.user_id,
         });
 
         this.submitData(this.formClaim.value);

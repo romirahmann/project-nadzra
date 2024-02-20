@@ -9,20 +9,21 @@ import { environment } from 'src/environment/environment.prod';
   templateUrl: './export-pdf.component.html',
   styleUrls: ['./export-pdf.component.scss'],
 })
-export class ExportPDFComponent implements AfterViewInit {
+export class ExportPDFComponent {
   dataFilterDate: any;
   dataItems: any;
   totalNominal!: any;
   apiUrl!: any;
   filename!: any;
-
+  category_id!: any;
   @ViewChild('templatePDF', { static: false }) templatePDF!: ElementRef;
   constructor(private route: ActivatedRoute, private apiService: ApiService) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.dataFilterDate = params;
       this.getDataFilter();
+      this.category_id = parseInt(this.dataFilterDate.category_id);
     });
   }
 
@@ -44,11 +45,14 @@ export class ExportPDFComponent implements AfterViewInit {
   getDataFilter() {
     const month = parseInt(this.dataFilterDate?.month);
     const year = parseInt(this.dataFilterDate?.year);
+    const category_id = parseInt(this.dataFilterDate?.category_id);
 
+    console.log(month, year, category_id);
     this.apiService.exportFilter(month, year).subscribe(
       (res: any) => {
         console.log(res.data);
         this.dataItems = res.data.data;
+        console.log(this.dataItems);
         this.totalNominal = res.data.totalNominal;
         this.apiUrl = environment.apiUrl;
         this.filename = this.dataItems[0].filename;

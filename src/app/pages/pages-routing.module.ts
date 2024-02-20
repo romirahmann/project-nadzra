@@ -7,11 +7,16 @@ import { DetailClaimComponent } from './detail-claim/detail-claim.component';
 import { ExportPDFComponent } from './export-pdf/export-pdf.component';
 import { DataUserComponent } from './data-user/data-user.component';
 import { DataClientComponent } from './data-client/data-client.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { ReimbursementClientComponent } from './reimbursement-client/reimbursement-client.component';
 
 const routes: Routes = [
   { path: '', component: StatusComponent },
   { path: 'profil', component: ProfilComponent },
   { path: 'add-claim', component: AddClaimComponent },
+  { path: 'add-reimbursement-client', component: ReimbursementClientComponent },
+  { path: 'add-user', component: AddUserComponent },
+
   { path: 'detail-claim/:id', component: DetailClaimComponent },
   { path: 'export-pdf', component: ExportPDFComponent },
   { path: 'data-user', component: DataUserComponent },

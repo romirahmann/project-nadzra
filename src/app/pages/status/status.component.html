@@ -1,9 +1,74 @@
-<button
-  (click)="toogleModalExport()"
-  class="bg-blue-800 text-white px-10 rounded-xl py-3 mb-5"
->
-  Export PDF
-</button>
+<div class="relative btn-action-table flex justify-between">
+  <div class="btn-filter" *ngIf="userLogin?.role_id === 3">
+    <button
+      (click)="openFilter()"
+      id="dropdownActionButton"
+      class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-10 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+      type="button"
+    >
+      <span class="sr-only">Action button</span>
+      Filter
+      <svg
+        class="w-2.5 h-2.5 ms-2.5"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 10 6"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m1 1 4 4 4-4"
+        />
+      </svg>
+    </button>
+    <!-- Dropdown menu -->
+    <div
+      id="dropdownFilter"
+      class="absolute z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+    >
+      <ul
+        class="py-1 text-sm text-gray-700 dark:text-gray-200"
+        aria-labelledby="dropdownFilterButton"
+      >
+        <li>
+          <button
+            (click)="getAllClaimByUserId(this.userLogin.user_id)"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          >
+            All
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="getAllClaimByCategory(userLogin.user_id, 1)"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          >
+            Biaya Kantor
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="getAllClaimByCategory(userLogin.user_id, 2)"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          >
+            Client
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="btn-export">
+    <button
+      (click)="toogleModalExport()"
+      class="bg-yellow-600 hover:bg-yellow-300 text-white px-10 rounded-xl py-3 mb-5"
+    >
+      Export PDF
+    </button>
+  </div>
+</div>
 
 <div class="relative">
   <!-- Tampilan Karyawan -->
@@ -11,7 +76,7 @@
     <table class="items-center bg-transparent w-full border-collapse">
       <thead class="bg-primary">
         <tr class="text-center text-white text-2xl font-bold">
-          <td colspan="8">Reimburse Biaya Kantor</td>
+          <td colspan="10">Reimburse Biaya Kantor</td>
         </tr>
         <tr>
           <th
@@ -50,6 +115,16 @@
             Approval
           </th>
           <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Category
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Note
+          </th>
+          <th
             *ngIf="userLogin?.role_id === 3"
             class="px-6 text-center bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold"
           >
@@ -64,7 +139,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700"
             >
-              {{ i + 1 }}
+              {{ (currentPage - 1) * pageSize + i + 1 }}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -114,6 +189,16 @@
               </span>
             </td>
             <td
+              class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
+              {{ claim.category_name }}
+            </td>
+            <td
+              class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
+              {{ claim.note_partner }}
+            </td>
+            <td
               *ngIf="userLogin?.role_id === 3"
               class="border-t-0 text-center px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 flex"
             >
@@ -123,10 +208,16 @@
                 <button class="p-4 bg-yellow-400 ms-2 rounded-xl text-white">
                   Resubmit
                 </button>
-                <button class="p-4 bg-green-700 ms-2 rounded-xl text-white">
+                <button
+                  (click)="toogleModalEdit()"
+                  class="p-4 bg-green-700 ms-2 rounded-xl text-white"
+                >
                   Edit
                 </button>
-                <button class="p-4 bg-red-700 ms-2 rounded-xl text-white">
+                <button
+                  (click)="toogleModalRemove(claim)"
+                  class="p-4 bg-red-700 ms-2 rounded-xl text-white"
+                >
                   Remove
                 </button>
               </span>
@@ -137,10 +228,16 @@
                 >
                   Submit
                 </button>
-                <button class="p-4 bg-green-700 ms-2 rounded-xl text-white">
+                <button
+                  (click)="toogleModalEdit()"
+                  class="p-4 bg-green-700 ms-2 rounded-xl text-white"
+                >
                   Edit
                 </button>
-                <button class="p-4 bg-red-700 ms-2 rounded-xl text-white">
+                <button
+                  (click)="toogleModalRemove(claim)"
+                  class="p-4 bg-red-700 ms-2 rounded-xl text-white"
+                >
                   Remove
                 </button>
               </span>
@@ -149,27 +246,6 @@
         >
       </tbody>
     </table>
-    <div class="flex justify-end">
-      <!-- Previous Button -->
-      <button
-        [disabled]="currentPage === 1"
-        (click)="prevPage()"
-        href="#"
-        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-      >
-        Previous
-      </button>
-
-      <!-- Next Button -->
-      <button
-        [disabled]="currentPage === totalPages"
-        (click)="nextPage()"
-        href="#"
-        class="flex items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-      >
-        Next
-      </button>
-    </div>
   </div>
 
   <div *ngIf="userLogin?.role_id !== 3" class="block w-full overflow-x-auto">
@@ -199,6 +275,11 @@
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
             ATTACHMENT BUKTI
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            CATEGORY
           </th>
           <th
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs text-white uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -239,6 +320,11 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
+              {{ claim.category_name }}
+            </td>
+            <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
               <span *ngIf="claim.status_code === 'D'">
                 <p class="text-md font-bold">Draft</p>
               </span>
@@ -258,6 +344,7 @@
                 <p class="text-md font-bold text-red-600">Ditolak Partner</p>
               </span>
             </td>
+
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
@@ -272,7 +359,12 @@
         >
       </tbody>
     </table>
-    <div class="flex justify-end mt-5">
+  </div>
+  <div class="flex justify-between mt-5">
+    <div class="info-pagination">
+      Showing {{ getStartIndex() }} - {{ getEndIndex() }} entries {{ entires }}
+    </div>
+    <div class="btn-pagination flex">
       <!-- Previous Button -->
       <button
         [disabled]="currentPage === 1"
@@ -343,7 +435,7 @@
         <form (ngSubmit)="onSubmit()" class="space-y-4">
           <div>
             <label
-              for="email"
+              for="date"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Date</label
             >
@@ -368,3 +460,17 @@
     </div>
   </div>
 </div>
+
+<!-- EDIT MODAL -->
+<app-modal-edit-claim
+  id="modal-edit"
+  class="hidden absolute overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+></app-modal-edit-claim>
+<!-- REMOVE MODAL -->
+<app-modal-remove
+  id="modal-remove"
+  class="hidden absolute overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+  [receivedData]="dataModalRemove | async"
+  (closeModalEvent)="toogleModalRemove(null)"
+>
+</app-modal-remove>

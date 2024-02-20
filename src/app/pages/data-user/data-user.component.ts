@@ -15,8 +15,16 @@ export class DataUserComponent {
   userID!: number;
 
   formEdit!: FormGroup;
+
+  pageSize: number = 20;
+  currentPage: number = 1;
+  totalPages: number = 0;
+  displayUsers!: any;
+  entires: any;
+
   // EMITTER TO MODAL
   @Output() textForModal: EventEmitter<any> = new EventEmitter<any>();
+  @Output() dataModalRemove: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private apiService: ApiService,
@@ -35,14 +43,16 @@ export class DataUserComponent {
 
   getDataUserLogin() {
     this.dataUserLogin = this.authService.getUserLogin();
-    // console.log(this.dataUserLogin);
     this.getAllUser();
   }
 
   getAllUser() {
     this.apiService.getAllUsers().subscribe((res: any) => {
-      // console.log(res.data);
       this.dataUsers = res.data;
+      this.entires = this.dataUsers.length;
+      console.log(this.dataUsers);
+      this.calculateTotalPages();
+      this.updateDisplayUsers();
     });
   }
 
@@ -101,5 +111,53 @@ export class DataUserComponent {
       modalSuccess?.classList.add('hidden');
       this.toogleModalEdit(null);
     }, 2000);
+  }
+
+  toogleModalRemove(user: any) {
+    if (user !== null) {
+      const dataModalRemove = {
+        id: user.user_id,
+        name: user.username,
+        category: 'user',
+      };
+      // console.log('Component Data User', dataModalRemove);
+      this.dataModalRemove.emit(dataModalRemove);
+      const modalRemove = document.querySelector('#modalRemove');
+      modalRemove?.classList.toggle('hidden');
+    } else {
+      this.getAllUser();
+      const modalRemove = document.querySelector('#modalRemove');
+      modalRemove?.classList.toggle('hidden');
+    }
+  }
+
+  // Pagination
+  calculateTotalPages() {
+    this.totalPages = Math.ceil(this.entires / this.pageSize);
+  }
+
+  updateDisplayUsers() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayUsers = this.dataUsers.slice(startIndex, endIndex);
+  }
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updateDisplayUsers();
+    }
+  }
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updateDisplayUsers();
+    }
+  }
+  getStartIndex(): number {
+    return (this.currentPage - 1) * this.pageSize + 1;
+  }
+  getEndIndex(): number {
+    const endIndex: number = this.currentPage * this.pageSize;
+    return Math.min(endIndex, this.entires);
   }
 }

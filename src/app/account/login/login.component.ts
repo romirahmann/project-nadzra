@@ -31,7 +31,6 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log(this.formLogin.value);
     if (this.formLogin.invalid) {
       // Cek apakah input username kosong
       if (this.formLogin.controls['karyawan_id'].invalid) {
@@ -55,9 +54,8 @@ export class LoginComponent {
 
   login() {
     this.api.login(this.formLogin.value).subscribe((res: any) => {
-      // console.log(res);
-      this.api.savetoken(res.token, res.userData[0]);
-      // this.route.navigate(['']);
+      this.api.savetoken(res.token, res.userData);
+
       const textLogin = 'Login';
       this.textForModal.emit(textLogin);
       this.showModal();

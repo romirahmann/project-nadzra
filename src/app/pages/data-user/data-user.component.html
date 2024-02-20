@@ -1,5 +1,6 @@
 <div class="btn-group">
   <button
+    routerLink="/add-user"
     type="button"
     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
   >
@@ -43,7 +44,7 @@
     </thead>
 
     <tbody class="border-2">
-      <ng-container *ngFor="let user of dataUsers; let i = index">
+      <ng-container *ngFor="let user of displayUsers; let i = index">
         <tr>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700"
@@ -77,6 +78,7 @@
               Edit
             </button>
             <button
+              (click)="toogleModalRemove(user)"
               type="button"
               class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
@@ -88,9 +90,35 @@
     </tbody>
   </table>
 </div>
+<div class="flex justify-between mt-5">
+  <div class="info-pagination">
+    Showing {{ getStartIndex() }} - {{ getEndIndex() }} entries {{ entires }}
+  </div>
+  <div class="btn-pagination flex">
+    <!-- Previous Button -->
+    <button
+      [disabled]="currentPage === 1"
+      (click)="prevPage()"
+      href="#"
+      class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+    >
+      Previous
+    </button>
+
+    <!-- Next Button -->
+    <button
+      [disabled]="currentPage === totalPages"
+      (click)="nextPage()"
+      href="#"
+      class="flex items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+    >
+      Next
+    </button>
+  </div>
+</div>
 
 <!-- MODAL -->
-<!-- Main modal -->
+<!-- Edit Modal -->
 <div
   id="edit-modal"
   tabindex="-1"
@@ -192,3 +220,10 @@
   [receivedText]="textForModal | async"
 >
 </app-modal>
+
+<app-modal-remove
+  id="modalRemove"
+  class="hidden absolute overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+  [receivedData]="dataModalRemove | async"
+  (closeModalEvent)="toogleModalRemove(null)"
+></app-modal-remove>

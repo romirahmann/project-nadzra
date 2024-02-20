@@ -12,9 +12,21 @@ import { DetailClaimComponent } from './detail-claim/detail-claim.component';
 import { ExportPDFComponent } from './export-pdf/export-pdf.component';
 import { DataUserComponent } from './data-user/data-user.component';
 import { DataClientComponent } from './data-client/data-client.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { ReimbursementClientComponent } from './reimbursement-client/reimbursement-client.component';
 
 @NgModule({
-  declarations: [StatusComponent, ProfilComponent, AddClaimComponent, DetailClaimComponent, ExportPDFComponent, DataUserComponent, DataClientComponent],
+  declarations: [
+    StatusComponent,
+    ProfilComponent,
+    AddClaimComponent,
+    DetailClaimComponent,
+    ExportPDFComponent,
+    DataUserComponent,
+    DataClientComponent,
+    AddUserComponent,
+    ReimbursementClientComponent,
+  ],
   imports: [
     CommonModule,
     PagesRoutingModule,
