@@ -30,15 +30,19 @@ export class DataClientComponent {
   }
 
   getAllClient() {
-    this.apiService.getAllClient().subscribe((res: any) => {
-      this.clients = res.data;
-    });
+    this.apiService.getAllClient().subscribe(
+      (res: any) => {
+        this.clients = res.data;
+      },
+      (err: any) => {
+        console.log(err);
+        this.clients = [];
+      }
+    );
   }
 
   getClientById(id: any) {
-    console.log(id);
     this.apiService.getClientById(id).subscribe((res: any) => {
-      console.log(res.data[0]);
       this.clientID = res.data[0].client_id;
       this.createForm(res.data[0].client_name);
     });

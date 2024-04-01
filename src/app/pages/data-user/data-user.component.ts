@@ -50,7 +50,7 @@ export class DataUserComponent {
     this.apiService.getAllUsers().subscribe((res: any) => {
       this.dataUsers = res.data;
       this.entires = this.dataUsers.length;
-      console.log(this.dataUsers);
+
       this.calculateTotalPages();
       this.updateDisplayUsers();
     });

@@ -52,7 +52,7 @@ export class StatusComponent {
   getAllApprovalAdmin() {
     this.apiService.getAllAprovalAdmin().subscribe((res: any) => {
       this.dataClaim = res.data;
-      console.log(this.dataClaim);
+
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -64,7 +64,7 @@ export class StatusComponent {
   getAllApprovalPartner() {
     this.apiService.getAllAprovalPartner().subscribe((res: any) => {
       this.dataClaim = res.data;
-      console.log(this.dataClaim);
+
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -88,7 +88,7 @@ export class StatusComponent {
   getAllClaimByUserId(userId: number) {
     this.apiService.getAllClaimByUserID(userId).subscribe((res: any) => {
       this.dataClaim = res.data;
-      console.log(this.dataClaim);
+
       this.fileUrl = environment.apiUrl;
       this.entires = this.dataClaim.length;
       this.updateDisplayClaim();
@@ -97,9 +97,7 @@ export class StatusComponent {
   }
 
   getFile(filename: any) {
-    this.apiService.getFile(filename).subscribe((res: any) => {
-      console.log();
-    });
+    this.apiService.getFile(filename).subscribe((res: any) => {});
   }
 
   submit(claimID: any) {
