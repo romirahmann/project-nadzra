@@ -12,6 +12,20 @@
   </div>
   <!-- Right: Login Form -->
   <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+    <div
+      id="alert-wrong-input"
+      class="hidden bg-red-700 mb-3 py-3 px-3 rounded-2xl text-white"
+    >
+      <i class="fa-solid fa-triangle-exclamation"></i> Wrong Karyawan Id or
+      Password!
+    </div>
+    <div
+      id="alert-importan-input"
+      class="hidden bg-red-700 mb-3 py-3 px-3 rounded-2xl text-white"
+    >
+      <i class="fa-solid fa-triangle-exclamation"></i> Karyawan Id & Passowrd
+      Required!
+    </div>
     <h1 class="text-2xl font-semibold mb-4">Login</h1>
     <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
       <!-- Username Input -->
@@ -25,12 +39,20 @@
           autocomplete="off"
           formControlName="karyawan_id"
         />
-        <div class="mt-2">
-          <div [hidden]="!wrongKaryawanID">
-            <span
-              class="p-2 mt-2 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-              >ID is required</span
-            >
+        <div
+          *ngIf="
+            formLogin.get('karyawan_id')?.invalid &&
+            (formLogin.get('karyawan_id')?.dirty ||
+              formLogin.get('karyawan_id')?.touched)
+          "
+          class="text-danger"
+        >
+          <div
+            id="wrong-username"
+            *ngIf="formLogin.get('karyawan_id')?.errors?.['required']"
+            class="text-red-500"
+          >
+            Karyawan Id is required.
           </div>
         </div>
       </div>
@@ -57,12 +79,27 @@
           ></i>
         </div>
       </div>
-      <div class="mb-1">
-        <div [hidden]="!wrongPassword">
-          <span
-            class="p-2 text-sm text-red-600 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            >Password is required</span
-          >
+      <!-- Tambahkan pesan kesalahan untuk validasi -->
+      <div
+        *ngIf="
+          formLogin.get('password')?.invalid &&
+          (formLogin.get('password')?.dirty ||
+            formLogin.get('password')?.touched)
+        "
+        class="text-danger"
+      >
+        <div
+          id="wrong-pw"
+          *ngIf="formLogin.get('password')?.errors?.['required']"
+          class="text-red-500"
+        >
+          Password is required.
+        </div>
+        <div
+          *ngIf="formLogin.get('password')?.errors?.['minlength']"
+          class="text-red-600"
+        >
+          Password must be at least 8 characters long.
         </div>
       </div>
 
@@ -73,10 +110,6 @@
         Login
       </button>
     </form>
-    <!-- Sign up  Link -->
-    <div class="mt-6 text-blue-500 text-center">
-      <a routerLink="/auth/register" class="hover:underline">Sign up Here</a>
-    </div>
   </div>
 </div>
 

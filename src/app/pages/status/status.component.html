@@ -209,7 +209,7 @@
                   Resubmit
                 </button>
                 <button
-                  (click)="toogleModalEdit()"
+                  (click)="toogleModal(1, claim)"
                   class="p-4 bg-green-700 ms-2 rounded-xl text-white"
                 >
                   Edit
@@ -229,7 +229,7 @@
                   Submit
                 </button>
                 <button
-                  (click)="toogleModalEdit()"
+                  (click)="toogleModal(1, claim)"
                   class="p-4 bg-green-700 ms-2 rounded-xl text-white"
                 >
                   Edit
@@ -463,8 +463,10 @@
 
 <!-- EDIT MODAL -->
 <app-modal-edit-claim
-  id="modal-edit"
-  class="hidden absolute overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+  id="modal-claim"
+  class="absolute hidden overflow-y-auto overflow-x-hidden flex w-full h-full justify-center items-center top-0 left-0 backdrop-blur-sm backdrop-brightness-75 shadow-md"
+  [dataReceived]="dataReceived"
+  (closeModalEvent)="toogleModal(0, null)"
 ></app-modal-edit-claim>
 <!-- REMOVE MODAL -->
 <app-modal-remove

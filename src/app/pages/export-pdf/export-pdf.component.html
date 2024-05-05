@@ -7,7 +7,7 @@
 <div id="template-pdf" class="box-template shadow-md p-5" #templatePDF>
   <div class="conten-pdf">
     <h1 class="text-2xl font-extrabold">Total Reimbursement</h1>
-    <p class="text-xl font-bold">Desember 2023</p>
+    <p class="text-xl font-bold">{{ nama_bulan }} {{ dataFilterDate?.year }}</p>
 
     <div class="relative overflow-x-auto mt-10">
       <table
@@ -17,7 +17,7 @@
           class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
         >
           <tr>
-            <th scope="col" class="px-2 py-3">Employee</th>
+            <th scope="col" class="px-2 py-3">Deskripsi</th>
             <th scope="col" class="px-2 py-3">Nominal</th>
             <th scope="col" class="px-2 py-3">Category</th>
             <th scope="col" class="px-2 py-3">Client</th>
@@ -53,8 +53,9 @@
       </p>
     </div>
     <div class="box-ttd mt-10 grid justify-items-end">
-      <img src="{{ apiUrl }}/file/{{ filename }}" alt="" class="w-48" />
-      <p class="italic me-10">Romi Rahman</p>
+      <!-- <img src="{{ apiUrl }}/file/{{ filename }}" alt="" class="w-48" /> -->
+
+      <p class="italic me-10">Keynardo Mayhotraja</p>
     </div>
   </div>
 </div>

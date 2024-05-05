@@ -23,6 +23,7 @@ export class StatusComponent {
   filterDate!: any;
   category_id!: any;
 
+  dataReceived: any;
   @Output() dataModalRemove: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
@@ -126,10 +127,12 @@ export class StatusComponent {
 
   onSubmit() {
     const [year, month] = this.filterDate.split('-');
+    console.log(this.filterDate);
     const data = {
       year: parseInt(year),
       month: parseInt(month),
     };
+    console.log(data);
 
     this.route.navigate(['/export-pdf'], { queryParams: data });
   }
@@ -158,9 +161,23 @@ export class StatusComponent {
     }
   }
 
-  toogleModalEdit() {
-    const modal = document.querySelector('#modal-edit');
-    modal?.classList.toggle('hidden');
+  // TOOGLE MODAL
+  toogleModal(category_toogle: number, claim: any) {
+    if (category_toogle === 1) {
+      let data = {
+        text: '',
+        category: 'EDIT_CLAIM',
+        data: claim,
+      };
+      this.dataReceived = data;
+      const modal = document.querySelector('#modal-claim');
+      modal?.classList.toggle('hidden');
+    }
+    if (category_toogle === 0) {
+      this.getDataByRole();
+      const modal = document.querySelector('#modal-claim');
+      modal?.classList.toggle('hidden');
+    }
   }
 
   // Pagination

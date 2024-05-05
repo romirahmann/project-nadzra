@@ -29,19 +29,14 @@ export class LoginComponent {
       password: ['', Validators.required],
     });
   }
-
+  toggleAlert() {
+    const wrongAlert = document.querySelector('#alert-wrong-input');
+    wrongAlert?.classList.toggle('hidden');
+  }
   onSubmit() {
     if (this.formLogin.invalid) {
-      // Cek apakah input username kosong
-      if (this.formLogin.controls['karyawan_id'].invalid) {
-        this.wrongKaryawanID = true; // Tampilkan pesan kesalahan untuk username
-      }
-
-      // Cek apakah input password kosong
-      if (this.formLogin.controls['password'].invalid) {
-        this.wrongPassword = true; // Tampilkan pesan kesalahan untuk password
-      }
-      return;
+      const alertImportant = document.querySelector('#alert-importan-input');
+      alertImportant?.classList.toggle('hidden');
     } else {
       this.login();
     }
@@ -53,13 +48,18 @@ export class LoginComponent {
   }
 
   login() {
-    this.api.login(this.formLogin.value).subscribe((res: any) => {
-      this.api.savetoken(res.token, res.userData);
+    this.api.login(this.formLogin.value).subscribe(
+      (res: any) => {
+        this.api.savetoken(res.token, res.userData);
 
-      const textLogin = 'Login';
-      this.textForModal.emit(textLogin);
-      this.showModal();
-    });
+        const textLogin = 'Login';
+        this.textForModal.emit(textLogin);
+        this.showModal();
+      },
+      (err: any) => {
+        this.toggleAlert();
+      }
+    );
   }
 
   showModal() {

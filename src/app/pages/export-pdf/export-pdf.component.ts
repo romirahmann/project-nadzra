@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as html2pdf from 'html2pdf.js';
+import { filter } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { environment } from 'src/environment/environment.prod';
 
@@ -16,14 +17,16 @@ export class ExportPDFComponent {
   apiUrl!: any;
   filename!: any;
   category_id!: any;
+  nama_bulan!: string;
   @ViewChild('templatePDF', { static: false }) templatePDF!: ElementRef;
   constructor(private route: ActivatedRoute, private apiService: ApiService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
+      console.log('params', params);
       this.dataFilterDate = params;
       this.getDataFilter();
-      this.category_id = parseInt(this.dataFilterDate.category_id);
+      // this.category_id = parseInt(this.dataFilterDate.category_id);
     });
   }
 
@@ -43,11 +46,49 @@ export class ExportPDFComponent {
 
   // GetDataExport
   getDataFilter() {
+    console.log(this.dataFilterDate);
     const month = parseInt(this.dataFilterDate?.month);
     const year = parseInt(this.dataFilterDate?.year);
-    const category_id = parseInt(this.dataFilterDate?.category_id);
+    switch (month) {
+      case 1:
+        this.nama_bulan = 'Januari';
+        break;
+      case 2:
+        this.nama_bulan = 'Februari';
+        break;
+      case 3:
+        this.nama_bulan = 'Maret';
+        break;
+      case 4:
+        this.nama_bulan = 'April';
+        break;
+      case 5:
+        this.nama_bulan = 'Mei';
+        break;
+      case 6:
+        this.nama_bulan = 'Juni';
+        break;
+      case 7:
+        this.nama_bulan = 'Juli';
+        break;
+      case 8:
+        this.nama_bulan = 'Agustus';
+        break;
+      case 9:
+        this.nama_bulan = 'September';
+        break;
+      case 10:
+        this.nama_bulan = 'Oktober';
+        break;
+      case 11:
+        this.nama_bulan = 'November';
+        break;
+      case 12:
+        this.nama_bulan = 'Desember';
+        break;
+    }
 
-    console.log(month, year, category_id);
+    console.log(month, year);
     this.apiService.exportFilter(month, year).subscribe(
       (res: any) => {
         console.log(res.data);
