@@ -34,6 +34,7 @@ export class AuthService {
     localStorage.removeItem('user_login');
     this.authToken.next('');
     this.authUser.next({});
+    this.Router.navigate(['/auth/login']);
   }
 
   savetoken(token: any, userLogin: any) {

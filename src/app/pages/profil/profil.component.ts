@@ -19,6 +19,7 @@ export class ProfilComponent {
 
   ngOnInit() {
     this.userLogin = this.authService.getUserLogin();
+    console.log(this.userLogin);
     this.getTotalClaims();
   }
 

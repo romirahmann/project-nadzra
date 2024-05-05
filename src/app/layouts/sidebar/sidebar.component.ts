@@ -12,10 +12,18 @@ export class SidebarComponent {
 
   userLogin: any = null;
 
-  constructor(private el: ElementRef, private apiAuth: AuthService) {}
+  constructor(
+    private el: ElementRef,
+    private apiAuth: AuthService,
+    private authSerive: AuthService
+  ) {}
 
   ngOnInit() {
     this.userLogin = this.apiAuth.getUserLogin();
+  }
+
+  logout() {
+    this.authSerive.logout();
   }
 
   toggleSubMenu() {
